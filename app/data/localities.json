@@ -1,0 +1,155 @@
+{
+  "note": "Simplified jurisdiction model for the demo: 12 curated Delhi-NCR localities, each with an approximate centroid + radius and the civic agency that would realistically own enforcement there. A production system should replace this with official ward/zone GeoJSON from MCD/NDMC/DDA open-data portals. Nearby schools/hospitals are real, well-known landmarks used for exposure scoring; coordinates are approximate.",
+  "localities": [
+    {
+      "id": "chanakyapuri",
+      "name": "Chanakyapuri",
+      "lat": 28.5921,
+      "lon": 77.1900,
+      "radius_km": 2.5,
+      "agency": "NDMC",
+      "agency_type": "New Delhi Municipal Council",
+      "state": "Delhi",
+      "schools": [{"name": "Army Public School, Dhaula Kuan", "lat": 28.5885, "lon": 77.1612}],
+      "hospitals": [{"name": "Primus Super Speciality Hospital", "lat": 28.5968, "lon": 77.1867}]
+    },
+    {
+      "id": "connaught-place",
+      "name": "Connaught Place",
+      "lat": 28.6315,
+      "lon": 77.2167,
+      "radius_km": 2,
+      "agency": "NDMC",
+      "agency_type": "New Delhi Municipal Council",
+      "state": "Delhi",
+      "schools": [{"name": "Convent of Jesus and Mary, Gole Market", "lat": 28.6291, "lon": 77.2014}],
+      "hospitals": [{"name": "Lady Hardinge Medical College & Hospital", "lat": 28.6373, "lon": 77.2140}]
+    },
+    {
+      "id": "delhi-cantonment",
+      "name": "Delhi Cantonment",
+      "lat": 28.5822,
+      "lon": 77.1500,
+      "radius_km": 4,
+      "agency": "Delhi Cantonment Board",
+      "agency_type": "Cantonment Board",
+      "state": "Delhi",
+      "schools": [{"name": "Army Public School, Delhi Cantt", "lat": 28.5890, "lon": 77.1420}],
+      "hospitals": [{"name": "Base Hospital, Delhi Cantt", "lat": 28.5795, "lon": 77.1465}]
+    },
+    {
+      "id": "rk-puram",
+      "name": "R.K. Puram",
+      "lat": 28.5650,
+      "lon": 77.1750,
+      "radius_km": 3,
+      "agency": "MCD – South Zone",
+      "agency_type": "Municipal Corporation of Delhi",
+      "state": "Delhi",
+      "schools": [
+        {"name": "Kendriya Vidyalaya, R.K. Puram", "lat": 28.5650, "lon": 77.1750},
+        {"name": "Sarvodaya Vidyalaya, R.K. Puram", "lat": 28.5661, "lon": 77.1769}
+      ],
+      "hospitals": [{"name": "AIIMS, New Delhi", "lat": 28.5672, "lon": 77.2100}]
+    },
+    {
+      "id": "ashok-vihar",
+      "name": "Ashok Vihar",
+      "lat": 28.6950,
+      "lon": 77.1695,
+      "radius_km": 3,
+      "agency": "MCD – North Zone",
+      "agency_type": "Municipal Corporation of Delhi",
+      "state": "Delhi",
+      "schools": [
+        {"name": "North Delhi Public School", "lat": 28.6950, "lon": 77.1695},
+        {"name": "Govt. Sr. Secondary School, Ashok Vihar", "lat": 28.6958, "lon": 77.1702}
+      ],
+      "hospitals": [{"name": "BJRM Hospital, Jahangirpuri", "lat": 28.7260, "lon": 77.1650}]
+    },
+    {
+      "id": "anand-vihar",
+      "name": "Anand Vihar",
+      "lat": 28.6469,
+      "lon": 77.3151,
+      "radius_km": 3,
+      "agency": "MCD – East Zone",
+      "agency_type": "Municipal Corporation of Delhi",
+      "state": "Delhi",
+      "schools": [{"name": "Anand Vihar Model School", "lat": 28.6469, "lon": 77.3151}],
+      "hospitals": [{"name": "Max Super Speciality Hospital, Patparganj", "lat": 28.6358, "lon": 77.2905}]
+    },
+    {
+      "id": "patparganj",
+      "name": "Patparganj",
+      "lat": 28.6358,
+      "lon": 77.2910,
+      "radius_km": 3,
+      "agency": "MCD – East Zone",
+      "agency_type": "Municipal Corporation of Delhi",
+      "state": "Delhi",
+      "schools": [{"name": "St. Xavier's School, Patparganj", "lat": 28.6358, "lon": 77.2910}],
+      "hospitals": [{"name": "Max Super Speciality Hospital, Patparganj", "lat": 28.6358, "lon": 77.2905}]
+    },
+    {
+      "id": "dwarka",
+      "name": "Dwarka",
+      "lat": 28.5921,
+      "lon": 77.0460,
+      "radius_km": 5,
+      "agency": "MCD – South West Zone / DDA",
+      "agency_type": "Municipal Corporation of Delhi / Delhi Development Authority",
+      "state": "Delhi",
+      "schools": [{"name": "Delhi Public School, Dwarka", "lat": 28.6062, "lon": 77.0497}],
+      "hospitals": [{"name": "Venkateshwar Hospital, Dwarka", "lat": 28.5921, "lon": 77.0590}]
+    },
+    {
+      "id": "rohini",
+      "name": "Rohini",
+      "lat": 28.7158,
+      "lon": 77.1091,
+      "radius_km": 5,
+      "agency": "MCD – North West Zone",
+      "agency_type": "Municipal Corporation of Delhi",
+      "state": "Delhi",
+      "schools": [{"name": "Mount Abu Public School, Rohini", "lat": 28.7128, "lon": 77.1210}],
+      "hospitals": [{"name": "Dr. Baba Saheb Ambedkar Hospital, Rohini", "lat": 28.7245, "lon": 77.1195}]
+    },
+    {
+      "id": "najafgarh",
+      "name": "Najafgarh",
+      "lat": 28.6092,
+      "lon": 76.9798,
+      "radius_km": 5,
+      "agency": "MCD – Najafgarh Zone",
+      "agency_type": "Municipal Corporation of Delhi",
+      "state": "Delhi",
+      "schools": [{"name": "Govt. Boys Sr. Sec. School, Najafgarh", "lat": 28.6098, "lon": 76.9810}],
+      "hospitals": [{"name": "Najafgarh Sub-District Hospital", "lat": 28.6105, "lon": 76.9825}]
+    },
+    {
+      "id": "noida-sector-62",
+      "name": "Noida Sector 62",
+      "lat": 28.6237,
+      "lon": 77.3636,
+      "radius_km": 3,
+      "agency": "Noida Authority",
+      "agency_type": "New Okhla Industrial Development Authority (Uttar Pradesh)",
+      "state": "Uttar Pradesh",
+      "schools": [{"name": "Delhi Public School, Noida", "lat": 28.5355, "lon": 77.3910}],
+      "hospitals": [{"name": "Fortis Hospital, Noida", "lat": 28.5847, "lon": 77.3261}]
+    },
+    {
+      "id": "gurugram-cyber-city",
+      "name": "Gurugram (Cyber City)",
+      "lat": 28.4949,
+      "lon": 77.0869,
+      "radius_km": 5,
+      "agency": "MCG",
+      "agency_type": "Municipal Corporation of Gurugram (Haryana)",
+      "state": "Haryana",
+      "schools": [{"name": "The Shri Ram School, Gurugram", "lat": 28.4601, "lon": 77.0730}],
+      "hospitals": [{"name": "Medanta – The Medicity", "lat": 28.4382, "lon": 77.0436}]
+    }
+  ]
+}
