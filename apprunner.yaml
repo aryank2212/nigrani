@@ -1,0 +1,25 @@
+version: 1.0
+runtime: python312
+build:
+  commands:
+    build:
+      - pip install -r requirements.txt
+run:
+  runtime-version: 3.12.0
+  command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+  network:
+    port: 8000
+  env:
+    - name: DYNAMODB_TABLE
+      value: saferecess-readings
+    - name: INCIDENTS_TABLE
+      value: nigrani-incidents
+    - name: S3_BUCKET
+      value: nigrani-photos-prod
+    - name: AWS_REGION
+      value: ap-south-1
+    # Set after requesting Bedrock model access in the console, e.g.
+    # anthropic.claude-3-5-sonnet-20241022-v2:0 -- no secret needed, App
+    # Runner's attached IAM role authenticates to Bedrock automatically.
+    # - name: BEDROCK_MODEL_ID
+    #   value: anthropic.claude-3-5-sonnet-20241022-v2:0

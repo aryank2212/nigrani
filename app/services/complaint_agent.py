@@ -101,10 +101,16 @@ def _build_tools():
 
 
 def _make_model():
-    """Bedrock first (needs AWS creds + the account's Bedrock model access
-    enabled for the chosen model), then direct Anthropic, else None."""
+    """Bedrock first (needs BEDROCK_MODEL_ID + the account's Bedrock model
+    access enabled for it), then direct Anthropic, else None.
+
+    Deliberately does NOT gate on AWS_ACCESS_KEY_ID being set: in production
+    (e.g. App Runner) credentials come from an attached IAM instance role via
+    instance metadata, never as an env var, and boto3's default credential
+    chain resolves that automatically. Only AWS_ENDPOINT_URL (LocalStack) is
+    explicit about wanting non-default credentials."""
     bedrock_model_id = os.environ.get("BEDROCK_MODEL_ID")
-    if bedrock_model_id and (os.environ.get("AWS_ACCESS_KEY_ID") or os.environ.get("AWS_PROFILE")):
+    if bedrock_model_id:
         from strands.models.bedrock import BedrockModel
 
         return BedrockModel(

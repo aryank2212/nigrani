@@ -21,23 +21,24 @@ _dynamo_checked = False
 
 
 def _get_table():
+    # See the identical comment in incidents_storage.py: this deliberately
+    # does not gate on AWS_ENDPOINT_URL, so production (IAM instance role,
+    # no endpoint override) actually uses real DynamoDB instead of silently
+    # falling back to the JSON file every time.
     global _dynamo_table, _dynamo_checked
     if _dynamo_checked:
         return _dynamo_table
     _dynamo_checked = True
-    endpoint = os.environ.get("AWS_ENDPOINT_URL")
-    if not endpoint:
-        return None
     try:
         import boto3
 
-        resource = boto3.resource(
-            "dynamodb",
-            endpoint_url=endpoint,
-            region_name=os.environ.get("AWS_REGION", "us-east-1"),
-            aws_access_key_id=os.environ.get("AWS_ACCESS_KEY_ID", "test"),
-            aws_secret_access_key=os.environ.get("AWS_SECRET_ACCESS_KEY", "test"),
-        )
+        kwargs = {"region_name": os.environ.get("AWS_REGION", "us-east-1")}
+        endpoint = os.environ.get("AWS_ENDPOINT_URL")
+        if endpoint:
+            kwargs["endpoint_url"] = endpoint
+            kwargs["aws_access_key_id"] = os.environ.get("AWS_ACCESS_KEY_ID", "test")
+            kwargs["aws_secret_access_key"] = os.environ.get("AWS_SECRET_ACCESS_KEY", "test")
+        resource = boto3.resource("dynamodb", **kwargs)
         table = resource.Table(TABLE_NAME)
         table.load()  # raises if the table doesn't exist / endpoint is unreachable
         _dynamo_table = table
