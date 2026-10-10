@@ -7,3 +7,4 @@ strands-agents[anthropic]>=1.59
 pytest>=8.0
 scikit-learn>=1.5
 pillow>=10.4
+python-multipart>=0.0.9
