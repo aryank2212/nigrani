@@ -94,7 +94,7 @@ export default function Layout() {
     <>
       <a className="skip" href="#content">Skip to content</a>
       <div className="demo-bar">
-        <span>Demo build · every complaint, agency response and AI verdict is simulated</span>
+        <span>Demo build · new reports are verified live against the real Nigrani backend (Strands + AWS Bedrock) when it's reachable, and fall back to a simulated verdict otherwise</span>
         <button type="button" className="link-btn" onClick={() => { resetDemo(); toast("Demo data reset to its starting state."); }}>Reset demo data</button>
       </div>
       <header className="nav">

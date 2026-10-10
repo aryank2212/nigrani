@@ -72,6 +72,7 @@ async def submit_complaint(
     lon: float = Form(...),
     description: str = Form(""),
     language: str = Form("en"),
+    category_hint: str = Form(""),
 ):
     photo_bytes = await photo.read()
     if not photo_bytes:
@@ -84,7 +85,15 @@ async def submit_complaint(
 
     agent_result = complaint_agent.verify_complaint(photo_bytes, lat, lon, description)
     verdict = agent_result["verdict"]
-    category = verdict["category"] if verdict else "unclear"
+    if verdict:
+        category = verdict["category"]
+    elif category_hint in grap.CATEGORIES:
+        # No AI configured: trust the citizen's own category rather than defaulting to
+        # "unclear", so GRAP/jurisdiction/exposure still mean something while waiting on
+        # a vision model to be wired in.
+        category = category_hint
+    else:
+        category = "unclear"
 
     grap_result = grap.evaluate_violation(category, aqi_source.regional_aqi())
     jurisdiction_result = jurisdiction.find_jurisdiction(lat, lon)
