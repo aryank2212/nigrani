@@ -1,4 +1,4 @@
-"""One-time setup: create the DynamoDB table against LocalStack (or real AWS).
+"""One-time setup: create both DynamoDB tables against LocalStack (or real AWS).
 
 Usage:
     docker compose up -d
@@ -9,7 +9,8 @@ import os
 import boto3
 
 endpoint = os.environ.get("AWS_ENDPOINT_URL", "http://localhost:4566")
-table_name = os.environ.get("DYNAMODB_TABLE", "saferecess-readings")
+readings_table = os.environ.get("DYNAMODB_TABLE", "saferecess-readings")
+incidents_table = os.environ.get("INCIDENTS_TABLE", "nigrani-incidents")
 
 client = boto3.client(
     "dynamodb",
@@ -20,11 +21,12 @@ client = boto3.client(
 )
 
 existing = client.list_tables().get("TableNames", [])
-if table_name in existing:
-    print(f"Table {table_name!r} already exists at {endpoint}.")
+
+if readings_table in existing:
+    print(f"Table {readings_table!r} already exists at {endpoint}.")
 else:
     client.create_table(
-        TableName=table_name,
+        TableName=readings_table,
         KeySchema=[
             {"AttributeName": "school_id", "KeyType": "HASH"},
             {"AttributeName": "timestamp", "KeyType": "RANGE"},
@@ -35,4 +37,15 @@ else:
         ],
         BillingMode="PAY_PER_REQUEST",
     )
-    print(f"Created table {table_name!r} at {endpoint}.")
+    print(f"Created table {readings_table!r} at {endpoint}.")
+
+if incidents_table in existing:
+    print(f"Table {incidents_table!r} already exists at {endpoint}.")
+else:
+    client.create_table(
+        TableName=incidents_table,
+        KeySchema=[{"AttributeName": "id", "KeyType": "HASH"}],
+        AttributeDefinitions=[{"AttributeName": "id", "AttributeType": "S"}],
+        BillingMode="PAY_PER_REQUEST",
+    )
+    print(f"Created table {incidents_table!r} at {endpoint}.")

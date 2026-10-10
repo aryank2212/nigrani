@@ -4,5 +4,5 @@ services:
     ports:
       - "4566:4566"
     environment:
-      - SERVICES=dynamodb
+      - SERVICES=dynamodb,s3,sns,stepfunctions,lambda,iam,logs
       - DEBUG=0

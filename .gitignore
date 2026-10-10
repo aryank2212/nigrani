@@ -3,4 +3,6 @@ __pycache__/
 *.pyc
 .env
 app/data/history_fallback.json
+app/data/incidents_fallback.json
+app/data/photos/
 .pytest_cache/
