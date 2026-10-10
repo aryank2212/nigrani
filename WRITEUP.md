@@ -1,36 +1,45 @@
-# SafeRecess — submission writeup
+# Nigrani — submission writeup
 
-*Draft for the Environmental Hacks submission form (problem / build / where AWS fits). Edit freely before submitting — especially the "Team" and "Demo video" sections.*
+*Draft for the Environmental Hacks submission form (problem / build / where AWS fits). Edit freely before submitting — especially "Team" and "Demo video".*
 
 ## Track
 
-Air — "school safety on bad days."
+Air (also touches Waste).
 
 ## The problem
 
-Delhi-NCR's AQI regularly crosses "Unhealthy" and "Hazardous" during the October–November stubble-burning season — exactly the week this hackathon runs in. Schools get broad government advisories, but there's no simple, per-school tool that turns a raw AQI number into a concrete "what do we do with recess today" decision. Children are a recognised sensitive group — they breathe more air per kilogram of body weight than adults, and their lungs are still developing — so general-public guidance isn't strict enough for them, and primary-age children need stricter thresholds than secondary students.
+Delhi already collects tens of thousands of pollution complaints a month through apps like 311 and Green Delhi. Most go nowhere: routed to the wrong one of ~21 overlapping agencies, never acted on in time, or marked "resolved" with nothing actually fixed — audits have found government departments resolving zero complaints within their own deadlines, and high reopen rates on the ones they do close.
 
-SafeRecess takes a school's location and age group, finds the nearest AQI reading, and turns it into a plain-language, actionable safety advisory: a risk level, the single most important action, and a short checklist — tuned stricter for younger children.
+Nigrani doesn't replace those apps — it's the AI layer that verifies, routes, prioritises and audits what citizens already report into them.
 
 ## What we built
 
-- A risk-scoring engine mapping AQI → a 6-level school-safety scale (Safe → Consider Closure), with primary schools bumped one level stricter than secondary at the same AQI.
-- Live AQI lookup by school coordinates (nearest-station), with a bundled real offline snapshot (three live Delhi-NCR station readings — Satyawati College, R.K. Puram, Anand Vihar — captured on 2026-10-10) so the app runs with zero signup.
-- An advisory layer built on the **AWS Strands Agents SDK**: a tool-calling agent that looks up the live reading and risk assessment, then writes a short, calm, actionable advisory. Falls back to a deterministic template from the same risk engine when no LLM key is configured, so the app always produces a correct result.
-- Optional AWS DynamoDB history logging (via LocalStack locally, or real AWS unchanged) of every reading, keyed by school.
-- A small dashboard: a color-coded card per school (AQI, risk level, live/offline badge), click through for the full advisory.
+- **Evidence verification**: an AWS Strands Agents SDK agent sees the citizen's photo directly (native multi-modal input) and judges what it shows and whether it looks authentic — grounded by an independent, non-AI EXIF GPS/timestamp consistency check that runs first.
+- **GRAP-aware violation checking**: today's regional AQI maps to a GRAP stage (I–IV), and each complaint category is checked against what that stage actually bans — garbage burning is always a violation; construction becomes a full ban only at Stage III/IV.
+- **Jurisdiction routing**: a geofence lookup across 12 curated Delhi-NCR localities spanning MCD zones, NDMC, the Cantonment Board, DDA, and neighbouring Noida/Gurugram authorities — the fix for "21 departments, nobody knows who owns this."
+- **Downwind exposure scoring**: live wind data (Open-Meteo) combined with a documented-simplified plume cone against real nearby schools and hospitals — a fire upwind of an empty field scores lower than the same fire upwind of a primary school.
+- **Duplicate merging + hotspot clustering**: tight-radius merging folds repeat reports of the same incident into one with a witness count; real DBSCAN clustering finds organic repeat-offender hotspots for the public dashboard.
+- **Before/after closure verification**: an officer's "fixed" photo is compared against the original by the same agent — only confirmed fixes get marked resolved; anything else reopens automatically, which is the whole point.
+- **A public scoreboard**: per-agency resolution rate and reopen rate, computed from what Nigrani verified, not self-reported.
+
+Every AWS-dependent step degrades gracefully: with no credentials configured, the pipeline still runs end to end and correctly marks complaints for manual review rather than fabricating a verdict.
 
 ## Where AWS fits
 
-- **AWS Strands Agents SDK** (open source) drives the advisory-generation agent and its tool calls — this is the project's primary AWS integration, and it needs no AWS account to run.
-- **Amazon DynamoDB** (optional second integration) stores the reading history; the same boto3 code runs against LocalStack for local development or a real AWS account for deployment — nothing in the code changes between the two.
-- Deploy path (not required to run, but ready): the FastAPI app is a drop-in fit for **AWS Lambda + API Gateway** (or **AWS Amplify Hosting** for a static build of the frontend), both covered by the AWS Free Tier.
+- **AWS Strands Agents SDK** (open source) drives the verification and closure-comparison agents.
+- **Amazon Bedrock** runs the vision-capable model behind that agent (falls back to direct Anthropic if Bedrock isn't configured).
+- **Amazon S3** stores report/closure photos; **Amazon DynamoDB** stores incidents — both run against LocalStack for local development and real AWS unchanged for deployment.
+- Deploy path: the FastAPI backend is container-ready (`Dockerfile`) for Lambda/App Runner/ECS; Step Functions (deadline escalation) and SNS (officer alerts) are the next layer, using LocalStack's local emulation of both during development.
+
+## Honesty, stated openly
+
+We don't have access to real government complaint data, so the dashboard is seeded with 30 illustrative complaints at real Delhi-NCR locations with invented descriptions — run through the real GRAP/jurisdiction/exposure code, not hardcoded. The 12-locality jurisdiction model is a simplified stand-in for official ward/zone GeoJSON. The GRAP rule table is a simplified encoding of CAQM's publicly known stage structure, not a live feed (none exists publicly). This is a prototype, not an enforcement authority — verdicts are AI-assisted, not final.
 
 ## What's next
 
-- Swap in real school partner data and a verified live AQI token for the demo region.
-- Add a forecast view (next 24–48h trend) instead of just current conditions.
-- SMS/WhatsApp alerts via SNS when a school crosses into "Move Indoors" or worse.
+- Step Functions deadline timers + SNS escalation when an officer misses their SLA.
+- Cedar policies encoding jurisdiction rules as code (e.g. "an officer can only close complaints in their own jurisdiction").
+- Swap the curated locality list for official MCD/NDMC ward GeoJSON.
 
 ## AI tools used
 
