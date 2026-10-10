@@ -3,30 +3,53 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>SafeRecess — School Air Quality Advisor</title>
-<link rel="stylesheet" href="/static/styles.css?v=2" />
+<meta name="color-scheme" content="light dark" />
+<meta name="description" content="Today's air quality for Delhi-NCR schools, turned into a clear recess decision." />
+<title>SafeRecess | Is it safe to play outside today?</title>
+<link rel="stylesheet" href="/static/styles.css?v=3" />
 </head>
 <body>
-  <header>
-    <h1>SafeRecess</h1>
-    <p class="tagline">AQI-aware school safety advisories for Delhi-NCR &middot; built with the AWS Strands Agents SDK</p>
+  <a class="skip" href="#content">Skip to schools</a>
+
+  <header class="wrap top">
+    <span class="brand"><span class="mark" aria-hidden="true"></span>SafeRecess</span>
   </header>
 
-  <main>
-    <div id="schools-grid" class="grid"></div>
+  <main id="content" class="wrap" tabindex="-1">
+    <section class="hero">
+      <h1>Is it safe to play outside today?</h1>
+      <p class="lede">Choose a school to see today's air quality and what to do about recess.</p>
+    </section>
+
+    <section class="schools" aria-labelledby="schools-h">
+      <h2 id="schools-h" class="visually-hidden">Schools</h2>
+      <div class="bar">
+        <p id="status" role="status"></p>
+        <button id="refresh" type="button" class="link">Refresh</button>
+      </div>
+      <ul id="list" class="list" aria-busy="true"></ul>
+    </section>
+
+    <section class="legend" aria-labelledby="legend-h">
+      <h2 id="legend-h">What the levels mean</h2>
+      <ol id="legend"></ol>
+      <p class="note">Primary schools are held one level stricter than older students at the same reading, because younger children are more affected by polluted air.</p>
+    </section>
   </main>
 
-  <div id="advisory-modal" class="modal hidden">
-    <div class="modal-card">
-      <button id="modal-close" class="modal-close" aria-label="Close">&times;</button>
-      <div id="modal-body">Loading&hellip;</div>
-    </div>
-  </div>
-
-  <footer>
-    <p>Data: CPCB / DPCC monitoring stations, via aqicn.org. Prototype built for the WeMakeDevs &times; AWS Environmental Hacks hackathon. Not an official safety authority — verify against local government advisories before acting on it.</p>
+  <footer class="wrap foot">
+    <p>Readings come from CPCB / DPCC monitoring stations via aqicn.org. SafeRecess is a prototype, not an official authority. Please check government advisories before acting on it.</p>
   </footer>
 
-  <script src="/static/app.js"></script>
+  <dialog id="detail" closedby="any" aria-labelledby="detail-title">
+    <form method="dialog" class="close-wrap">
+      <button class="close" aria-label="Close">
+        <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </form>
+    <div id="detail-body"></div>
+  </dialog>
+
+  <script src="/static/app.js?v=3"></script>
 </body>
 </html>
