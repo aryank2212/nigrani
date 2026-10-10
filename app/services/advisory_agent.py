@@ -60,7 +60,7 @@ def _fallback_advisory(reading: "aqi_source.Reading", level: "risk.RiskLevel") -
     bullets = "\n".join(f"- {a}" for a in level.actions)
     live_tag = "live reading" if reading.is_live else "latest available reading (offline snapshot)"
     return (
-        f"**{level.label}** — AQI {reading.aqi} ({reading.category}) at {reading.name}, "
+        f"{level.label.upper()} — AQI {reading.aqi} ({reading.category}) at {reading.name}, "
         f"{live_tag}, updated {reading.updated_local}.\n\n"
         f"{level.headline} {level.why}\n\n"
         f"Recommended actions:\n{bullets}\n\n"

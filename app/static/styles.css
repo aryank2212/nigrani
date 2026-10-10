@@ -139,9 +139,9 @@ main {
   cursor: pointer;
 }
 
-.modal-body h2 { margin-top: 0; }
-.modal-body .advisory-text { white-space: pre-wrap; line-height: 1.5; }
-.modal-body .mode-tag {
+#modal-body h2 { margin-top: 0; }
+#modal-body .advisory-text { white-space: pre-wrap; line-height: 1.5; }
+#modal-body .mode-tag {
   display: inline-block;
   margin-bottom: 14px;
   font-size: 0.72rem;
