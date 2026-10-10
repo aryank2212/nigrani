@@ -1,0 +1,56 @@
+[
+  {
+    "id": "north-delhi-ps",
+    "name": "North Delhi Public School",
+    "area": "Ashok Vihar",
+    "age_group": "primary",
+    "lat": 28.695,
+    "lon": 77.1695,
+    "fallback_station_id": "satyawati-college"
+  },
+  {
+    "id": "govt-sr-sec-ashok-vihar",
+    "name": "Govt. Sr. Secondary School, Ashok Vihar",
+    "area": "Ashok Vihar",
+    "age_group": "secondary",
+    "lat": 28.6958,
+    "lon": 77.1702,
+    "fallback_station_id": "satyawati-college"
+  },
+  {
+    "id": "kv-rkpuram",
+    "name": "Kendriya Vidyalaya, R.K. Puram",
+    "area": "R.K. Puram",
+    "age_group": "mixed",
+    "lat": 28.565,
+    "lon": 77.175,
+    "fallback_station_id": "rk-puram"
+  },
+  {
+    "id": "sarvodaya-rkpuram",
+    "name": "Sarvodaya Vidyalaya, R.K. Puram",
+    "area": "R.K. Puram",
+    "age_group": "primary",
+    "lat": 28.5661,
+    "lon": 77.1769,
+    "fallback_station_id": "rk-puram"
+  },
+  {
+    "id": "anand-vihar-model",
+    "name": "Anand Vihar Model School",
+    "area": "Anand Vihar",
+    "age_group": "primary",
+    "lat": 28.6469,
+    "lon": 77.3151,
+    "fallback_station_id": "anand-vihar"
+  },
+  {
+    "id": "st-xaviers-patparganj",
+    "name": "St. Xavier's School, Patparganj",
+    "area": "Patparganj",
+    "age_group": "secondary",
+    "lat": 28.6358,
+    "lon": 77.291,
+    "fallback_station_id": "anand-vihar"
+  }
+]

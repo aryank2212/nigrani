@@ -1,0 +1,46 @@
+{
+  "captured_at": "2026-10-10T13:14:00+05:30",
+  "source": "CPCB / Delhi Pollution Control Committee (DPCC) monitoring stations, via aqicn.org public feed",
+  "note": "Bundled offline snapshot so SafeRecess works end-to-end with zero signup. Set WAQI_API_TOKEN in .env to switch to live data — see README.",
+  "stations": {
+    "satyawati-college": {
+      "name": "Satyawati College, Delhi",
+      "area": "Ashok Vihar, North Delhi",
+      "lat": 28.695,
+      "lon": 77.1695,
+      "aqi": 156,
+      "category": "Unhealthy",
+      "dominant_pollutant": "pm25",
+      "pm25_2day_min": 94,
+      "pm25_2day_max": 425,
+      "temp_c": 33.5,
+      "updated_local": "2026-10-10 13:00"
+    },
+    "rk-puram": {
+      "name": "R.K. Puram, Delhi",
+      "area": "R.K. Puram, South Delhi",
+      "lat": 28.565,
+      "lon": 77.175,
+      "aqi": 157,
+      "category": "Unhealthy",
+      "dominant_pollutant": "pm25",
+      "pm25_2day_min": 102,
+      "pm25_2day_max": 218,
+      "temp_c": 33,
+      "updated_local": "2026-10-10 13:00"
+    },
+    "anand-vihar": {
+      "name": "Anand Vihar, Delhi",
+      "area": "Anand Vihar, East Delhi",
+      "lat": 28.6469,
+      "lon": 77.3151,
+      "aqi": 129,
+      "category": "Unhealthy for Sensitive Groups",
+      "dominant_pollutant": "pm25",
+      "pm25_2day_min": 82,
+      "pm25_2day_max": 163,
+      "temp_c": 33.3,
+      "updated_local": "2026-10-10 12:00"
+    }
+  }
+}

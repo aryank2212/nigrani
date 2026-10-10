@@ -1,0 +1,7 @@
+fastapi>=0.115
+uvicorn[standard]>=0.30
+requests>=2.32
+python-dotenv>=1.2
+boto3>=1.34
+strands-agents[anthropic]>=1.59
+pytest>=8.0

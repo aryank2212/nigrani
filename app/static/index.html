@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SafeRecess — School Air Quality Advisor</title>
+<link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>SafeRecess</h1>
+    <p class="tagline">AQI-aware school safety advisories for Delhi-NCR &middot; built with the AWS Strands Agents SDK</p>
+  </header>
+
+  <main>
+    <div id="schools-grid" class="grid"></div>
+  </main>
+
+  <div id="advisory-modal" class="modal hidden">
+    <div class="modal-card">
+      <button id="modal-close" class="modal-close" aria-label="Close">&times;</button>
+      <div id="modal-body">Loading&hellip;</div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Data: CPCB / DPCC monitoring stations, via aqicn.org. Prototype built for the WeMakeDevs &times; AWS Environmental Hacks hackathon. Not an official safety authority — verify against local government advisories before acting on it.</p>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
