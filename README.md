@@ -68,6 +68,49 @@ Run the tests:
 .venv/bin/python -m pytest tests/ -v
 ```
 
+## API reference (for the frontend)
+
+Base URL in dev: `http://localhost:8000`. CORS is wide open (`*`) so a frontend on any other port/origin (Vite, Next.js, whatever) can call it directly — no proxy needed. Interactive docs with live "try it" are auto-generated at **`/docs`** (Swagger UI) and **`/redoc`** once the server is running; the raw schema is at `/openapi.json`. The shapes below are stable — ping me before changing field names rather than just changing them, since the static dashboard in `app/static/` also depends on them.
+
+| Method | Path | Returns |
+|---|---|---|
+| `GET` | `/api/health` | `{"status": "ok"}` — liveness check |
+| `GET` | `/api/schools` | Array of every school's current status (see shape below) |
+| `GET` | `/api/schools/{id}` | One school's current status, same shape as an item above |
+| `GET` | `/api/schools/{id}/advisory` | Full advisory for one school (slower — may call an LLM) |
+| `GET` | `/api/schools/{id}/history` | Array of recent `{school_id, timestamp, aqi, risk_level, mode}` readings |
+
+**School status shape** (`/api/schools`, `/api/schools/{id}`):
+```json
+{
+  "id": "kv-rkpuram",
+  "name": "Kendriya Vidyalaya, R.K. Puram",
+  "area": "R.K. Puram",
+  "age_group": "mixed",
+  "aqi": 157,
+  "category": "Unhealthy",
+  "is_live": false,
+  "risk_level": "Move Indoors",
+  "risk_color": "#cc0033",
+  "updated_local": "2026-10-10 13:00"
+}
+```
+`risk_level` is one of: `Safe`, `Caution`, `Limit Outdoor Time`, `Move Indoors`, `Lockdown-Lite`, `Consider Closure` (ascending severity). `risk_color` is a ready-to-use hex you can drop straight into CSS. `is_live` tells you whether this came from the live WAQI feed or the bundled offline snapshot — worth surfacing in the UI (the existing dashboard shows a dot for it).
+
+**Advisory shape** (`/api/schools/{id}/advisory`):
+```json
+{
+  "school": { "...same fields as schools.json..." },
+  "text": "LOCKDOWN-LITE — AQI 156 (Unhealthy) at Satyawati College, Delhi, ...",
+  "mode": "rule-based",
+  "reading": { "name": "...", "aqi": 156, "category": "...", "...": "..." },
+  "risk": { "level": 3, "label": "Move Indoors", "color": "#cc0033", "headline": "...", "why": "...", "actions": ["...", "..."] }
+}
+```
+`mode` is `"agent"` (real Strands/LLM-generated) or `"rule-based"` (template fallback, when no `ANTHROPIC_API_KEY` is set) — worth a small badge in the UI, same as the existing dashboard does. `text` contains literal `\n` line breaks (not markdown) — render with `white-space: pre-wrap` or split on `\n`, don't expect `**bold**`-style markup.
+
+The existing `app/static/` dashboard is a plain HTML/CSS/JS reference implementation of all of this — useful to look at if a response shape is ambiguous, but it's not meant to constrain your stack or design.
+
 ## Getting live data / the agent / AWS working
 
 Copy `.env.example` to `.env` and fill in whichever of these you want — each is independent and optional:
