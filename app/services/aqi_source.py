@@ -116,3 +116,24 @@ def get_reading(lat: float, lon: float, fallback_station_id: str) -> Reading:
     if live is not None:
         return live
     return _reading_from_snapshot(fallback_station_id)
+
+
+# Central Delhi (India Gate) as the representative point for a "regional" reading.
+_REGIONAL_LAT, _REGIONAL_LON = 28.6139, 77.2090
+
+
+def regional_aqi() -> int:
+    """A single representative AQI for all of Delhi-NCR.
+
+    CAQM declares a GRAP stage for the whole region based on its own AQI
+    forecast model, not a per-neighbourhood reading, so GRAP checks use this
+    rather than a hyperlocal station lookup. Live mode queries the station
+    nearest central Delhi; offline mode averages the three bundled station
+    snapshots as a simplified stand-in for a real regional forecast.
+    """
+    live = _fetch_live(_REGIONAL_LAT, _REGIONAL_LON)
+    if live is not None:
+        return live.aqi
+    snapshot = _load_snapshot()
+    values = [s["aqi"] for s in snapshot["stations"].values()]
+    return round(sum(values) / len(values))
