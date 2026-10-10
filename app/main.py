@@ -53,6 +53,7 @@ def _school_status(school: dict) -> dict:
         "category": reading.category,
         "is_live": reading.is_live,
         "risk_level": level.label,
+        "risk_level_index": level.level,
         "risk_color": level.color,
         "updated_local": reading.updated_local,
     }
